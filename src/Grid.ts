@@ -1,7 +1,7 @@
 class Grid {
     StartPoint: Point;
     EndPoint: Point;
-    _points: Array<Point>;
+    _points: Array<any>;
     _numCols: number;
     _numRow: number;
 
@@ -12,14 +12,12 @@ class Grid {
         this._points = new Array();
         for (var i = 0; i < this._numCols; i++) {
 
-            this._points = new Array<Point>();
+            this._points[i] = new Array<Point>();
+            for (var j = 0; j < this._numRow; j++) {
+                this._points[i][j] = new Point(i, j);
 
+            }
         }
-        for (var j = 0; j < this._numRow; j++) {
-            this._points[i][j] = new Point(i, j);
-
-        }
-
 
     }
 
@@ -41,12 +39,12 @@ class Grid {
 
         this.StartPoint = this._points[x][y] as Point;
     }
-/*
+
     public setWalkable(x: number, y: number, value: boolean): void {
 
         this._points[x][y].Walkable = value;/////////////
-        
+
 
     }
-    */
+
 }

@@ -28,12 +28,11 @@ class Astar {
         return this.search();
     }
 
-    sortF(a,b){
-   return b.f - a.f;
-
-
-
+    sortF(a, b) {
+        return b.f - a.f;
     }
+
+
     search(): boolean {
         var point: Point = this._StartPoint;
         while (point != this._EndPoint) {
@@ -43,11 +42,11 @@ class Astar {
             var startY: number = Math.max(0, point.y - 1);
             var endY: number = Math.min(this._grid._numRow - 1, point.y + 1);
 
-            for (var i = startX; i <= endX; i++) {
+            for (var i = startX; i <= endX; i++) {//一共对8个点进行检测
 
                 for (var j = startY; i <= endY; j++) {
                     var test: Point = this._grid.getPoint(i, j);
-                    if (test == point || test.Walkable) continue;
+                    if (test == point || !test.Walkable) continue;
 
                     var cost = this._straghtCost;
 

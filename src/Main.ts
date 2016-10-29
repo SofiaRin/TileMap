@@ -133,97 +133,101 @@ class Main extends egret.DisplayObjectContainer {
      * Create a game scene
      */
 
-/*
-    private Judge(MyPlayer: Player) {
-        egret.Ticker.getInstance().register(() => {
-            if (MyPlayer.appearance.x == this.pointx && MyPlayer.appearance.y == this.pointy) {
-                MyPlayer.idel();
+    /*
+        private Judge(MyPlayer: Player) {
+            egret.Ticker.getInstance().register(() => {
+                if (MyPlayer.appearance.x == this.pointx && MyPlayer.appearance.y == this.pointy) {
+                    MyPlayer.idel();
+    
+                }
+            }, this)
+        }
+    */
 
-            }
-        }, this)
-    }
-*/
 
-
-/*
-
-    private Animate(MyPlayer: Player, bit: egret.Bitmap, playMod: number, playerAnimation: egret.Texture[], playerAnimation2: egret.Texture[]) {
-        var frame = 0;
-        var animateFrame = 0;
-        egret.Ticker.getInstance().register(() => {
-            
-            if (MyPlayer.idState.GetIdleState()) {
-
-                if (frame % 8 == 0) {
-                    bit.texture = playerAnimation[animateFrame];
-                    animateFrame++;
-                    if (animateFrame >= playMod) {
-
-                        animateFrame = 0;
-
+    /*
+    
+        private Animate(MyPlayer: Player, bit: egret.Bitmap, playMod: number, playerAnimation: egret.Texture[], playerAnimation2: egret.Texture[]) {
+            var frame = 0;
+            var animateFrame = 0;
+            egret.Ticker.getInstance().register(() => {
+                
+                if (MyPlayer.idState.GetIdleState()) {
+    
+                    if (frame % 8 == 0) {
+                        bit.texture = playerAnimation[animateFrame];
+                        animateFrame++;
+                        if (animateFrame >= playMod) {
+    
+                            animateFrame = 0;
+    
+                        }
                     }
-                }
-                frame++;
-                if (frame >= playMod * 10) {
-
-                    frame = 0;
-                }
-
-
-            }
-
-            if (MyPlayer.moState.GetMoveState()) {
-                if (frame % 8 == 0) {
-                    bit.texture = playerAnimation2[animateFrame];
-                    animateFrame++;
-                    if (animateFrame >= playMod) {
-
-                        animateFrame = 0;
-
+                    frame++;
+                    if (frame >= playMod * 10) {
+    
+                        frame = 0;
                     }
+    
+    
                 }
-                frame++;
-                if (frame >= playMod * 10) {
-
-                    frame = 0;
+    
+                if (MyPlayer.moState.GetMoveState()) {
+                    if (frame % 8 == 0) {
+                        bit.texture = playerAnimation2[animateFrame];
+                        animateFrame++;
+                        if (animateFrame >= playMod) {
+    
+                            animateFrame = 0;
+    
+                        }
+                    }
+                    frame++;
+                    if (frame >= playMod * 10) {
+    
+                        frame = 0;
+                    }
+    
                 }
+    this.Judge(MyPlayer);
+            }, this);
+    
+        }
+    
+    
+    */
 
-            }
-this.Judge(MyPlayer);
-        }, this);
 
-    }
-
-
-*/
-
-  
 
 
     private createGameScene(): void {
-        
-        var myMap = new TileMap();
+        var myGrid = new Grid(10,10);
+        var myMap = new TileMap(myGrid);
         this.addChild(myMap);
-        
+
         this.player = new Player();
         this.addChild(this.player);
         this.player.x = 500;
         this.player.y = 500;
 
         this.touchEnabled = true;
-        this.stage.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onTap, this);
-   
-       
+        this.stage.addEventListener(egret.TouchEvent.TOUCH_TAP, (e: egret.TouchEvent) => {
 
-        //根据name关键字，异步获取一个json配置文件，name属性请参考resources/resource.json配置文件的内容。
-        // Get asynchronously a json configuration file according to name keyword. As for the property of name please refer to the configuration file of resources/resource.json.
-        //RES.getResAsync("description_json", this.startAnimation, this)
+            console.log("tap" + e.stageX + "  " + e.stageY);
+            myMap.grid.setStartPoint(this.player.x, this.player.y);
+            myMap.grid.setEndPoint(e.stageX, e.stageY);
+         
+            this.player.move(new Vector2(e.stageX, e.stageY));
+
+
+        }, this);
+
+
+
+
     }
 
-      private onTap(event: egret.TouchEvent) {
-        console.log("tap" + event.stageX + "  " + event.stageY);
-        this.player.move(new Vector2(event.stageX, event.stageY));
-    }
+
 
     /**
      * 根据name关键字创建一个Bitmap对象。name属性请参考resources/resource.json配置文件的内容。
@@ -237,7 +241,7 @@ this.Judge(MyPlayer);
         return result;
     }
 
- 
+
 
     /**
      * 切换描述内容

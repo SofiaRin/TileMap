@@ -116,10 +116,11 @@ var config = [
 
 class TileMap extends egret.DisplayObjectContainer {
     public static TileSize = 64;
-
-    constructor() {
+    public grid: Grid;
+    constructor(grid:Grid) {
         super();
         this.init();
+        this.grid = grid;
     }
     private init() {
         for (var i = 0; i < config.length; i++) {
@@ -136,6 +137,25 @@ class TileMap extends egret.DisplayObjectContainer {
             console.log(gridX, gridY);
         }, this)
     }
+
+    private findPath(): void {
+        var astar: Astar = new Astar();
+        
+        if (astar.findPath(this.grid)) {
+        ///////////
+        }
+
+    }
+/*
+    private showPath(astar:Astar){
+    var path:Array<Point> = astar._path;
+    for(var i=0; i<path.length;i++){
+
+
+    }
+
+    }
+    */
 }
 
 
@@ -154,6 +174,7 @@ class Tile extends egret.DisplayObjectContainer {
         var bitmap = new egret.Bitmap();
         this.addChild(bitmap);
         bitmap.texture = RES.getRes(data.image);
+        
         this.x = data.x * TileMap.TileSize;
         this.y = data.y * TileMap.TileSize
     }
