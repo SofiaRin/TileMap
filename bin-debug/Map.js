@@ -102,9 +102,11 @@ var config = [
 ];
 var TileMap = (function (_super) {
     __extends(TileMap, _super);
-    function TileMap() {
+    function TileMap(grid) {
         _super.call(this);
         this.init();
+        this.grid = grid;
+        this.loadWalkable();
     }
     var d = __define,c=TileMap,p=c.prototype;
     p.init = function () {
@@ -121,6 +123,17 @@ var TileMap = (function (_super) {
             var gridY = Math.floor(localY / TileMap.TileSize);
             console.log(gridX, gridY);
         }, this);
+    };
+    p.findPath = function () {
+        var astar = new Astar();
+        if (astar.findPath(this.grid)) {
+            return astar._path;
+        }
+    };
+    p.loadWalkable = function () {
+        for (var i = 0; i < config.length; i++) {
+            this.grid.setWalkable(config[i].x, config[i].y, config[i].walkable);
+        }
     };
     TileMap.TileSize = 64;
     return TileMap;

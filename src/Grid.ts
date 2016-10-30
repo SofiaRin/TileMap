@@ -43,8 +43,6 @@ class Grid {
     public setWalkable(x: number, y: number, value: boolean): void {
 
         this._points[x][y].Walkable = value;/////////////
-
-
     }
 
 }

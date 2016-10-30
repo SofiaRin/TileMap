@@ -8,7 +8,7 @@ var Animation = (function () {
         this.FPS = FPS;
         this.timePassed = 0;
         this.curFrame = 0;
-        console.log("new animation," + anim[0]);
+        // console.log("new animation,"+anim[0]);
     }
     var d = __define,c=Animation,p=c.prototype;
     p.playCurcularly = function (timePassed) {
@@ -17,7 +17,6 @@ var Animation = (function () {
             this.timePassed -= (1000 / this.FPS);
             this.curFrame = (++this.curFrame) % this.textureList.length;
             this.self.texture = RES.getRes(this.textureList[this.curFrame]);
-            console.log("current frame:" + this.textureList[this.curFrame]);
         }
     };
     p.playOnce = function (order, timePassed) {

@@ -46,7 +46,10 @@ class Astar {
 
                 for (var j = startY; i <= endY; j++) {
                     var test: Point = this._grid.getPoint(i, j);
-                    if (test == point || !test.Walkable) continue;
+                    if (test == point || !test.Walkable ||
+                       !this._grid.getPoint(point.x,test.y).Walkable||
+                       !this._grid.getPoint(test.x,point.y).Walkable
+                    ) continue;
 
                     var cost = this._straghtCost;
 
@@ -86,6 +89,14 @@ class Astar {
             point = this._open.shift() as Point;
         }
         this.buildPath();
+        console.log("pathbulid");
+
+
+        for (var i = 0; i < this._path.length; i++) {
+
+            console.log(this._path[i].x + this._path[i].y + "\n");
+        }
+
         return true;
     }
     private buildPath(): void {

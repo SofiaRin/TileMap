@@ -10,7 +10,7 @@ class Animation{
         this.FPS=FPS;
         this.timePassed=0;
         this.curFrame=0;
-        console.log("new animation,"+anim[0]);
+       // console.log("new animation,"+anim[0]);
     }
     public playCurcularly(timePassed:number){
         this.timePassed+=timePassed;
@@ -18,7 +18,7 @@ class Animation{
             this.timePassed-=(1000/this.FPS);
             this.curFrame=(++this.curFrame) % this.textureList.length;
             this.self.texture=RES.getRes(this.textureList[this.curFrame]);
-            console.log("current frame:"+this.textureList[this.curFrame]);
+           // console.log("current frame:"+this.textureList[this.curFrame]);
         }
     }
     public playOnce(order:string,timePassed:number){

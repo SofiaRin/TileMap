@@ -121,6 +121,7 @@ class TileMap extends egret.DisplayObjectContainer {
         super();
         this.init();
         this.grid = grid;
+        this.loadWalkable();
     }
     private init() {
         for (var i = 0; i < config.length; i++) {
@@ -138,12 +139,18 @@ class TileMap extends egret.DisplayObjectContainer {
         }, this)
     }
 
-    private findPath(): void {
+    public findPath() {
         var astar: Astar = new Astar();
-        
-        if (astar.findPath(this.grid)) {
-        ///////////
+        if (astar.findPath(this.grid)) {    
+        return astar._path;
         }
+    }
+
+    private loadWalkable(){
+    for(var i=0; i<config.length;i++){
+
+    this.grid.setWalkable(config[i].x,config[i].y,config[i].walkable);
+    }
 
     }
 /*

@@ -201,24 +201,32 @@ class Main extends egret.DisplayObjectContainer {
 
 
     private createGameScene(): void {
-        var myGrid = new Grid(10,10);
+        var myGrid = new Grid(10, 10);
+        var i = 0;
         var myMap = new TileMap(myGrid);
         this.addChild(myMap);
 
         this.player = new Player();
         this.addChild(this.player);
-        this.player.x = 500;
-        this.player.y = 500;
+        this.player.x = 0;
+        this.player.y = 0;
 
         this.touchEnabled = true;
         this.stage.addEventListener(egret.TouchEvent.TOUCH_TAP, (e: egret.TouchEvent) => {
 
             console.log("tap" + e.stageX + "  " + e.stageY);
-            myMap.grid.setStartPoint(this.player.x, this.player.y);
-            myMap.grid.setEndPoint(e.stageX, e.stageY);
-         
-            this.player.move(new Vector2(e.stageX, e.stageY));
+            myMap.grid.setStartPoint( Math.floor(this.player.x/64), Math.floor(this.player.y/64));
+            myMap.grid.setEndPoint(Math.floor(e.stageX/64), Math.floor(e.stageY/64));
+            myMap.findPath();
+            while (i < myMap.findPath.length) {
+                this.player.move(new Vector2(myMap.findPath[i].x*64, myMap.findPath[i].y*64));
+                if ( Math.floor(this.player.x/64) == myMap.findPath[i].x && Math.floor(this.player.y/64) == myMap.findPath[i].y)
+                i++;
+            }
 
+
+            
+                 
 
         }, this);
 

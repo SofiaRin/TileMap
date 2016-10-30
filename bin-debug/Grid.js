@@ -4,10 +4,10 @@ var Grid = (function () {
         this._numRow = numRows;
         this._points = new Array();
         for (var i = 0; i < this._numCols; i++) {
-            this._points = new Array();
-        }
-        for (var j = 0; j < this._numRow; j++) {
-            this._points[i][j] = new Point(i, j);
+            this._points[i] = new Array();
+            for (var j = 0; j < this._numRow; j++) {
+                this._points[i][j] = new Point(i, j);
+            }
         }
     }
     var d = __define,c=Grid,p=c.prototype;
@@ -19,6 +19,9 @@ var Grid = (function () {
     };
     p.setEndPoint = function (x, y) {
         this.StartPoint = this._points[x][y];
+    };
+    p.setWalkable = function (x, y, value) {
+        this._points[x][y].Walkable = value; /////////////
     };
     return Grid;
 }());

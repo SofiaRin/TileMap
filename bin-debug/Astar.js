@@ -29,7 +29,7 @@ var Astar = (function () {
             for (var i = startX; i <= endX; i++) {
                 for (var j = startY; i <= endY; j++) {
                     var test = this._grid.getPoint(i, j);
-                    if (test == point || test.Walkable)
+                    if (test == point || !test.Walkable)
                         continue;
                     var cost = this._straghtCost;
                     if (!((point.x == test.x) || (point.y == test.y))) {
@@ -65,6 +65,10 @@ var Astar = (function () {
             point = this._open.shift();
         }
         this.buildPath();
+        console.log("pathbulid");
+        for (var i = 0; i < this._path.length; i++) {
+            console.log(this._path[i].x + this._path[i].y + "\n");
+        }
         return true;
     };
     p.buildPath = function () {

@@ -162,21 +162,27 @@ var Main = (function (_super) {
     
     */
     p.createGameScene = function () {
-        var myMap = new TileMap();
+        var _this = this;
+        var myGrid = new Grid(10, 10);
+        var i = 0;
+        var myMap = new TileMap(myGrid);
         this.addChild(myMap);
         this.player = new Player();
         this.addChild(this.player);
-        this.player.x = 500;
-        this.player.y = 500;
+        this.player.x = 0;
+        this.player.y = 0;
         this.touchEnabled = true;
-        this.stage.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onTap, this);
-        //根据name关键字，异步获取一个json配置文件，name属性请参考resources/resource.json配置文件的内容。
-        // Get asynchronously a json configuration file according to name keyword. As for the property of name please refer to the configuration file of resources/resource.json.
-        //RES.getResAsync("description_json", this.startAnimation, this)
-    };
-    p.onTap = function (event) {
-        console.log("tap" + event.stageX + "  " + event.stageY);
-        this.player.move(new Vector2(event.stageX, event.stageY));
+        this.stage.addEventListener(egret.TouchEvent.TOUCH_TAP, function (e) {
+            console.log("tap" + e.stageX + "  " + e.stageY);
+            myMap.grid.setStartPoint(Math.floor(_this.player.x / 64), Math.floor(_this.player.y / 64));
+            myMap.grid.setEndPoint(Math.floor(e.stageX / 64), Math.floor(e.stageY / 64));
+            myMap.findPath();
+            while (i < myMap.findPath.length) {
+                _this.player.move(new Vector2(myMap.findPath[i].x * 64, myMap.findPath[i].y * 64));
+                if (Math.floor(_this.player.x / 64) == myMap.findPath[i].x && Math.floor(_this.player.y / 64) == myMap.findPath[i].y)
+                    i++;
+            }
+        }, this);
     };
     /**
      * 根据name关键字创建一个Bitmap对象。name属性请参考resources/resource.json配置文件的内容。
