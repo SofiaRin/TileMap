@@ -38,6 +38,7 @@ class Main extends egret.DisplayObjectContainer {
 
 
     player: Player;
+
     private pointx: number;
     private pointy: number;
     /**
@@ -202,40 +203,72 @@ class Main extends egret.DisplayObjectContainer {
 
     private createGameScene(): void {
         var myGrid = new Grid(10, 10);
-        var i = 0;
+
+
         var myMap = new TileMap(myGrid);
         this.addChild(myMap);
 
         this.player = new Player();
         this.addChild(this.player);
-        this.player.x = 0;
-        this.player.y = 0;
+        this.player.x = 32;
+        this.player.y = 32;
 
         this.touchEnabled = true;
-        this.stage.addEventListener(egret.TouchEvent.TOUCH_TAP, (e: egret.TouchEvent) => {
+        var index = 0;
+
+
+        this.stage.addEventListener(egret.TouchEvent.TOUCH_BEGIN, (e: egret.TouchEvent) => {
 
             console.log("tap" + e.stageX + "  " + e.stageY);
-            myMap.grid.setStartPoint( Math.floor(this.player.x/64), Math.floor(this.player.y/64));
-            myMap.grid.setEndPoint(Math.floor(e.stageX/64), Math.floor(e.stageY/64));
-            myMap.findPath();
-            while (i < myMap.findPath.length) {
-                this.player.move(new Vector2(myMap.findPath[i].x*64, myMap.findPath[i].y*64));
-                if ( Math.floor(this.player.x/64) == myMap.findPath[i].x && Math.floor(this.player.y/64) == myMap.findPath[i].y)
-                i++;
+
+            myMap.grid.setEndPoint(Math.floor(e.stageX / 64), Math.floor(e.stageY / 64));
+            myMap.grid.setStartPoint(Math.floor(this.player.x / 64), Math.floor(this.player.y / 64));
+            var myRoad = myMap.findPath();
+
+            var targetX = myRoad[index].x * 64 + 64 / 2;
+            var targetY = myRoad[index].y * 64 + 64 / 2;
+
+            var dx = targetX - this.player.x;
+            var dy = targetY - this.player.y;
+
+            var dist = Math.sqrt(dx * dx + dy * dy);
+            /*
+            while (index < myRoad.length) {
+                this.player.move(new Vector2(myRoad[index].x * 64, myRoad[index].y * 64));
+                if (Math.floor(this.player.x / 64) == myRoad[index].x && Math.floor(this.player.y / 64) == )
+                    index++;
             }
 
+            if (dist < 1) {
+                index++;
+                if (index = myRoad.length) {
+                    this.stage.removeEventListener(egret.TouchEvent.TOUCH_TAP, (e: egret.TouchEvent) => { }, this);
+                }
+*/
 
-            
-                 
-
+            this.moveJudge(targetX, targetY);
+            if (this.moveJudge(targetX, targetY) == 0)
+                index++;
+            console.log("current index" + index);
         }, this);
-
 
 
 
     }
 
+    private moveJudge(x: number, y: number): number {
+        this.player.move(new Vector2(x, y));
+        while (true) {
 
+            if (this.player.x == x && this.player.y == y) {
+                return 0
+            } else {
+                return -1;
+            }
+        }
+
+
+    }
 
     /**
      * 根据name关键字创建一个Bitmap对象。name属性请参考resources/resource.json配置文件的内容。

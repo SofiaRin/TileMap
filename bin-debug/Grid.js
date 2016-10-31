@@ -15,10 +15,14 @@ var Grid = (function () {
         return this._points[x][y];
     };
     p.setStartPoint = function (x, y) {
+        // this.StartPoint = new Point(this._points[x], this._points[x].Point[y]);
+        // this._points[x].Point[y] as Point;
         this.StartPoint = this._points[x][y];
     };
     p.setEndPoint = function (x, y) {
-        this.StartPoint = this._points[x][y];
+        this.EndPoint = this._points[x][y];
+        //new Point(this._points[x], this._points[x].Point[y]);
+        // this._points[x][y] as Point;
     };
     p.setWalkable = function (x, y, value) {
         this._points[x][y].Walkable = value; /////////////

@@ -25,19 +25,24 @@ class Grid {
     getPoint(x: number, y: number): Point {
 
 
-        return this._points[x][y] as Point;
+        return this._points[x][y];
 
     }
 
     setStartPoint(x: number, y: number): void {
 
-        this.StartPoint = this._points[x][y] as Point;
+        // this.StartPoint = new Point(this._points[x], this._points[x].Point[y]);
+        // this._points[x].Point[y] as Point;
+        this.StartPoint = this._points[x][y];
     }
 
 
     setEndPoint(x: number, y: number): void {
 
-        this.StartPoint = this._points[x][y] as Point;
+        this.EndPoint = this._points[x][y];
+
+        //new Point(this._points[x], this._points[x].Point[y]);
+        // this._points[x][y] as Point;
     }
 
     public setWalkable(x: number, y: number, value: boolean): void {

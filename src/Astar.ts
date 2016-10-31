@@ -44,7 +44,7 @@ class Astar {
 
             for (var i = startX; i <= endX; i++) {//一共对8个点进行检测
 
-                for (var j = startY; i <= endY; j++) {
+                for (var j = startY; j <= endY; j++) {
                     var test: Point = this._grid.getPoint(i, j);
                     if (test == point || !test.Walkable ||
                        !this._grid.getPoint(point.x,test.y).Walkable||
@@ -94,7 +94,7 @@ class Astar {
 
         for (var i = 0; i < this._path.length; i++) {
 
-            console.log(this._path[i].x + this._path[i].y + "\n");
+            console.log("Node:"+this._path[i].x +","+this._path[i].y);
         }
 
         return true;
