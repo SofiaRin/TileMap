@@ -4,13 +4,16 @@ class Player extends egret.DisplayObjectContainer {
     appearance: egret.Bitmap;
     fsm: StateMachine;
 
+    _moveState:MoveState;
+    _idelState:IdleState;
+
     posX: number;
     posY: number;
     curAnimation: Animation;
-    idle: boolean;
-    walk: boolean;
+    
     isLeftFacing = true;
     animationList;
+
     /*
         PlayerIdle_Left: egret.Texture[] = new Array();
         PlayerIdle_Right: egret.Texture[] = new Array();
@@ -27,10 +30,12 @@ class Player extends egret.DisplayObjectContainer {
         this.appearance = new egret.Bitmap();
         this.appearance.height = 93;
         this.appearance.width = 60;
-        this.appearance.scaleX = 0.75;
-        this.appearance.scaleY = 0.75;
+        this.appearance.scaleX = 0.55;
+        this.appearance.scaleY = 0.55;
         this.appearance.anchorOffsetX = 30;
         this.appearance.anchorOffsetY = 42;
+
+
         
         this.animationList = {
             "idle_left": ["idel1_L_png", "idel2_L_png", "idel3_L_png", "idel4_L_png"],
@@ -44,20 +49,12 @@ class Player extends egret.DisplayObjectContainer {
         egret.startTick(this.fsm.runMachine, this.fsm);
         this.addChild(this.appearance);
 
-
-        this.idle = true;
-        this.walk = false;
-
-
-
     }
 
     move(location: Vector2) {
-        this.fsm.switchState(new MoveState(this, location));
+        this._moveState = new MoveState(this, location)
+        this.fsm.switchState(this._moveState );
     }
-
-
-
 
 
     createBitmapByName(name: string): egret.Bitmap {
@@ -90,7 +87,6 @@ class Player extends egret.DisplayObjectContainer {
     
                 this.PlayerWalk_Right[i] =
                     RES.getRes("move" + (i + 1) + "_R_png");
-    
             }
         }
     
@@ -117,8 +113,6 @@ class Player extends egret.DisplayObjectContainer {
         }
         */
 }
-
-
 class IdleState implements State {
 
     private Onidel: boolean = true;
@@ -135,7 +129,7 @@ class IdleState implements State {
 
         this.Onidel = true;
         this.player.curAnimation = new Animation(this.player.animationList[this.player.isLeftFacing ? "idle_left" : "idle_right"],
-            this.player.appearance);
+            this.player.appearance,8);
     }
 
 
@@ -162,6 +156,7 @@ class MoveState implements State {
     private OnMove: boolean = false;
     playerlocation: Vector2;
     StateName = "Move";
+    public isOnposition = false;
 
     constructor(player: Player, location: Vector2) {
         this.player = player;
@@ -170,13 +165,15 @@ class MoveState implements State {
 
     }
     EnterState() {
+        this.isOnposition = false;
+
         console.log("walk from:" + this.player.x.toFixed(1) + "  " + this.player.y.toFixed(1)
             + ", to:" + this.playerlocation.x.toFixed(1) + "  " + this.playerlocation.y.toFixed(1));
         //this.player.curAnimation
         //var nowFacing=this.player.isLeftFacing;
 
         this.player.curAnimation = new Animation(this.player
-            .animationList[this.player.isLeftFacing ? "walk_left" : "walk_right"], this.player.appearance, 3);
+            .animationList[this.player.isLeftFacing ? "walk_left" : "walk_right"], this.player.appearance, 8);
 
         var funcChange = function (): void {
             //console.log(this.x);
@@ -190,6 +187,14 @@ class MoveState implements State {
             Math.pow((this.playerlocation.x - this.player.x), 2) +
             Math.pow((this.playerlocation.y - this.player.y), 2)
         ) / this.player.speed, egret.Ease.sineInOut);
+
+/*
+        if (this.player.x == this.playerlocation.x && this.player.y == this.playerlocation.y) {
+
+            this.isOnposition = true;
+            console.log("Get Target Location");
+        }
+        */
     }
 
 
@@ -199,8 +204,9 @@ class MoveState implements State {
 
     ExitState() {
         this.OnMove = false;
-
-        egret.Tween.removeTweens(this.player);
+        this.isOnposition = true;
+        console.log("Get Target Location");
+       // egret.Tween.removeTweens(this.player);
     }
 
     GetState(): State {

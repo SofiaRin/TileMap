@@ -2,7 +2,7 @@ var Astar = (function () {
     function Astar() {
         this._straghtCost = 1.0;
         this._diagCost = Math.SQRT2;
-        this._heuristic = this.manhattan;
+        this._heuristic = this.euclidian;
     }
     var d = __define,c=Astar,p=c.prototype;
     p.findPath = function (gird) {

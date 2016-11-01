@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "egret_icon_png,description_json,Gamebg_jpg,idel4_L_png,move1_L_png,move3_L_png,move2_L_png,move4_L_png,idel1_L_png,idel2_L_png,idel3_L_png,move4_R_png,idel3_R_png,idel2_R_png,idel1_R_png,idel4_R_png,move1_R_png,move2_R_png,move3_R_png,tile_2_png,tile_1_png",
+			"keys": "description_json,Gamebg_jpg,idel4_L_png,move1_L_png,move3_L_png,move2_L_png,move4_L_png,idel1_L_png,idel2_L_png,idel3_L_png,move4_R_png,idel3_R_png,idel2_R_png,idel1_R_png,idel4_R_png,move1_R_png,move2_R_png,move3_R_png,tile_2_png,tile_1_png",
 			"name": "preload"
 		}
 	],
@@ -10,11 +10,6 @@
 			"url": "assets/bg.jpg",
 			"type": "image",
 			"name": "bg_jpg"
-		},
-		{
-			"url": "assets/egret_icon.png",
-			"type": "image",
-			"name": "egret_icon_png"
 		},
 		{
 			"url": "config/description.json",

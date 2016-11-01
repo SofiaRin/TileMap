@@ -1,3 +1,6 @@
+
+
+
 class Astar {
     _open: Array<Point>;
     _closed: Array<Point>;
@@ -7,7 +10,7 @@ class Astar {
     _path: Array<Point>
     _straghtCost: number = 1.0;
     _diagCost: number = Math.SQRT2;
-    _heuristic: Function = this.manhattan;
+    _heuristic: Function = this.euclidian;
 
     constructor() {
     }
@@ -141,6 +144,8 @@ class Astar {
         return false;
 
     }
+
+
 
     private euclidian(point: Point) {
         var dx = point.x - this._EndPoint.x;

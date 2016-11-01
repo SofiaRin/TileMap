@@ -1,10 +1,10 @@
 class Animation{
     timePassed:number;
-    FPS:number=8;
+    FPS:number=4;
     textureList=[];
     curFrame:number;
     self:egret.Bitmap;
-    public constructor(anim:any,self:egret.Bitmap,FPS = 8){
+    public constructor(anim:any,self:egret.Bitmap,FPS = 4){
         this.textureList=anim;
         this.self=self;
         this.FPS=FPS;

@@ -37,10 +37,11 @@
 class Main extends egret.DisplayObjectContainer {
 
 
-    player: Player;
-
+    
+    private static TILESIZE = 64;
     private pointx: number;
     private pointy: number;
+
     /**
      * 加载进度界面
      * Process interface loading
@@ -204,86 +205,116 @@ class Main extends egret.DisplayObjectContainer {
     private createGameScene(): void {
         var myGrid = new Grid(10, 10);
 
+        var myRoad = new Array();
 
         var myMap = new TileMap(myGrid);
         this.addChild(myMap);
 
-        this.player = new Player();
-        this.addChild(this.player);
-        this.player.x = 32;
-        this.player.y = 32;
+        var player = new Player();
+        this.addChild(player);
+        player.x = 32;
+        player.y = 32;
 
         this.touchEnabled = true;
         var index = 0;
+        var isStartJudge = false;
+
+/*
+Math.sqrt(
+            Math.pow((myRoad[index].x * 64 + 64 / 2 - player.x), 2) +
+            Math.pow((myRoad[index].y * 64 + 64 / 2 - player.y), 2)
+        ) / player.speed
+*/
+
+        function moveJudge() {
+            var timeCal = new egret.Timer(1000, 0)
+            timeCal.start();
+            console.log("Start Judege ?" + isStartJudge);
+            timeCal.addEventListener(egret.TimerEvent.TIMER, () => {
+                //console.log("call back");
+                if (isStartJudge) {
+                    console.log("Onposition ? " + player._moveState.isOnposition);
+                    if (player.x == myRoad[index].x * Main.TILESIZE + Main.TILESIZE / 2 && player.y == myRoad[index].y * Main.TILESIZE + Main.TILESIZE / 2) {
+
+                        index++;///// to 0 when is out 
+                        player.move(new Vector2(myRoad[index].x * Main.TILESIZE + Main.TILESIZE / 2, myRoad[index].y * Main.TILESIZE + Main.TILESIZE / 2));
+                        console.log("current index " + index);
+                         if (index == myRoad.length-1) {
+                            timeCal.removeEventListener(egret.TimerEvent.TIMER,()=>{},this)
+                            index = 0;
+                            isStartJudge = false;
+                        }
+                    }
 
 
-        this.stage.addEventListener(egret.TouchEvent.TOUCH_BEGIN, (e: egret.TouchEvent) => {
+                }
+              console.log("Start Judege ?" + isStartJudge);
+              
+            }, this);
 
-            console.log("tap" + e.stageX + "  " + e.stageY);
+        }
 
-            myMap.grid.setEndPoint(Math.floor(e.stageX / 64), Math.floor(e.stageY / 64));
-            myMap.grid.setStartPoint(Math.floor(this.player.x / 64), Math.floor(this.player.y / 64));
-            var myRoad = myMap.findPath();
+        /*
+                function moveJudge2() {
+        
+                    egret.Ticker.getInstance().register(() => {
+        
+                        if (player._moveState.isOnposition) {
+                            index++;///// to 0 when is out 
+                            console.log("current index " + index);
+                        }
+        
+                    }, this);
+                }
+        */
 
+
+        this.stage.addEventListener(egret.TouchEvent.TOUCH_TAP, (e: egret.TouchEvent) => {
+
+            console.log("tap_px " + e.stageX + "," + e.stageY);
+
+            myMap.grid.setEndPoint(Math.floor(e.stageX / Main.TILESIZE), Math.floor(e.stageY / Main.TILESIZE));
+            myMap.grid.setStartPoint(Math.floor(player.x / Main.TILESIZE), Math.floor(player.y / Main.TILESIZE));
+
+            myRoad = myMap.findPath();
+            isStartJudge = true;
+
+            /*
             var targetX = myRoad[index].x * 64 + 64 / 2;
             var targetY = myRoad[index].y * 64 + 64 / 2;
 
-            var dx = targetX - this.player.x;
-            var dy = targetY - this.player.y;
-
+            var dx = targetX - player.x;
+            var dy = targetY - player.y;
             var dist = Math.sqrt(dx * dx + dy * dy);
-            /*
-            while (index < myRoad.length) {
-                this.player.move(new Vector2(myRoad[index].x * 64, myRoad[index].y * 64));
-                if (Math.floor(this.player.x / 64) == myRoad[index].x && Math.floor(this.player.y / 64) == )
-                    index++;
-            }
-
-            if (dist < 1) {
-                index++;
-                if (index = myRoad.length) {
-                    this.stage.removeEventListener(egret.TouchEvent.TOUCH_TAP, (e: egret.TouchEvent) => { }, this);
-                }
 */
+            player.move(new Vector2(myRoad[index].x * Main.TILESIZE + Main.TILESIZE / 2, myRoad[index].y * Main.TILESIZE + Main.TILESIZE / 2));
 
-            this.moveJudge(targetX, targetY);
-            if (this.moveJudge(targetX, targetY) == 0)
-                index++;
-            console.log("current index" + index);
+            /* 
+                                   if (dist < 1) {
+                                       index++;
+                                       if (index = myRoad.length) {
+                                           this.stage.removeEventListener(egret.TouchEvent.TOUCH_TAP, (e: egret.TouchEvent) => { }, this);
+                                       }
+                                       player.x == myRoad[index].x * 64 + 64 / 2 && player.y == myRoad[index].y * 64 + 64 / 2
+            */
         }, this);
 
-
-
+        moveJudge();
     }
 
-    private moveJudge(x: number, y: number): number {
-        this.player.move(new Vector2(x, y));
-        while (true) {
-
-            if (this.player.x == x && this.player.y == y) {
-                return 0
-            } else {
-                return -1;
-            }
-        }
 
 
-    }
 
     /**
      * 根据name关键字创建一个Bitmap对象。name属性请参考resources/resource.json配置文件的内容。
      * Create a Bitmap object according to name keyword.As for the property of name please refer to the configuration file of resources/resource.json.
      */
-
     private createBitmapByName(name: string): egret.Bitmap {
         var result = new egret.Bitmap();
         var texture: egret.Texture = RES.getRes(name);
         result.texture = texture;
         return result;
     }
-
-
-
     /**
      * 切换描述内容
      * Switch to described content

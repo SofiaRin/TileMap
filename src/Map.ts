@@ -135,7 +135,7 @@ class TileMap extends egret.DisplayObjectContainer {
             var localY = e.localY;
             var gridX = Math.floor(localX / TileMap.TileSize);
             var gridY = Math.floor(localY / TileMap.TileSize);
-            console.log(gridX, gridY);
+            console.log("tap_grid "+ gridX + "," + gridY);
         }, this)
     }
 
