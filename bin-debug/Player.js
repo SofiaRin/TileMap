@@ -3,7 +3,7 @@ var Player = (function (_super) {
     __extends(Player, _super);
     function Player() {
         _super.call(this);
-        this.isLeftFacing = true;
+        this.isLeftFacing = false;
         this.speed = PLAYER_SPEED;
         this.appearance = new egret.Bitmap();
         this.appearance.height = 93;
@@ -89,7 +89,6 @@ var MoveState = (function () {
             Math.pow((this.playerlocation.y - this.player.y), 2)) / this.player.speed, egret.Ease.sineInOut);
         /*
                 if (this.player.x == this.playerlocation.x && this.player.y == this.playerlocation.y) {
-        
                     this.isOnposition = true;
                     console.log("Get Target Location");
                 }

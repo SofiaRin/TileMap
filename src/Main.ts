@@ -128,80 +128,12 @@ class Main extends egret.DisplayObjectContainer {
         }
     }
 
-    private textfield: egret.TextField;
+   
 
     /**
      * 创建游戏场景
      * Create a game scene
      */
-
-    /*
-        private Judge(MyPlayer: Player) {
-            egret.Ticker.getInstance().register(() => {
-                if (MyPlayer.appearance.x == this.pointx && MyPlayer.appearance.y == this.pointy) {
-                    MyPlayer.idel();
-    
-                }
-            }, this)
-        }
-    */
-
-
-    /*
-    
-        private Animate(MyPlayer: Player, bit: egret.Bitmap, playMod: number, playerAnimation: egret.Texture[], playerAnimation2: egret.Texture[]) {
-            var frame = 0;
-            var animateFrame = 0;
-            egret.Ticker.getInstance().register(() => {
-                
-                if (MyPlayer.idState.GetIdleState()) {
-    
-                    if (frame % 8 == 0) {
-                        bit.texture = playerAnimation[animateFrame];
-                        animateFrame++;
-                        if (animateFrame >= playMod) {
-    
-                            animateFrame = 0;
-    
-                        }
-                    }
-                    frame++;
-                    if (frame >= playMod * 10) {
-    
-                        frame = 0;
-                    }
-    
-    
-                }
-    
-                if (MyPlayer.moState.GetMoveState()) {
-                    if (frame % 8 == 0) {
-                        bit.texture = playerAnimation2[animateFrame];
-                        animateFrame++;
-                        if (animateFrame >= playMod) {
-    
-                            animateFrame = 0;
-    
-                        }
-                    }
-                    frame++;
-                    if (frame >= playMod * 10) {
-    
-                        frame = 0;
-                    }
-    
-                }
-    this.Judge(MyPlayer);
-            }, this);
-    
-        }
-    
-    
-    */
-
-
-
-
     private createGameScene(): void {
         var myGrid = new Grid(10, 10);
 
@@ -219,12 +151,6 @@ class Main extends egret.DisplayObjectContainer {
         var index = 0;
         var isStartJudge = false;
 
-/*
-Math.sqrt(
-            Math.pow((myRoad[index].x * 64 + 64 / 2 - player.x), 2) +
-            Math.pow((myRoad[index].y * 64 + 64 / 2 - player.y), 2)
-        ) / player.speed
-*/
 
         function moveJudge() {
             var timeCal = new egret.Timer(1000, 0)

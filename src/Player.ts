@@ -11,7 +11,7 @@ class Player extends egret.DisplayObjectContainer {
     posY: number;
     curAnimation: Animation;
     
-    isLeftFacing = true;
+    isLeftFacing = false;
     animationList;
 
     /*
@@ -190,7 +190,6 @@ class MoveState implements State {
 
 /*
         if (this.player.x == this.playerlocation.x && this.player.y == this.playerlocation.y) {
-
             this.isOnposition = true;
             console.log("Get Target Location");
         }
